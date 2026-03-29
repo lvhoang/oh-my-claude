@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oh-my-claude — CLAUDE.md templates for every project</title>
+  <meta name="description" content="Curated CLAUDE.md templates and .claude/settings.json configs for Claude Code. Stop writing from scratch." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --border: #2a2a2a;
+      --text: #e8e8e8;
+      --muted: #888;
+      --accent: #f97316;
+      --accent-dim: rgba(249, 115, 22, 0.12);
+      --green: #4ade80;
+      --code-bg: #1a1a1a;
+      --radius: 10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Nav ── */
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 18px 0;
+    }
+
+    nav .inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 0.9rem;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 80px 0 64px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid rgba(249,115,22,0.25);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .tagline {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 480px;
+      margin: 0 auto 40px;
+    }
+
+    /* ── Install Command ── */
+    .install-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 22px;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 0.95rem;
+      position: relative;
+    }
+
+    .install-box .prompt {
+      color: var(--green);
+      user-select: none;
+    }
+
+    .install-box code {
+      color: var(--text);
+      letter-spacing: 0.01em;
+    }
+
+    .copy-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+
+    .copy-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .copy-btn.copied {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    /* ── Section ── */
+    section { padding: 56px 0; }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      margin-bottom: 36px;
+    }
+
+    /* ── Templates grid ── */
+    .templates {
+      display: grid;
+      gap: 16px;
+    }
+
+    .template-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: border-color 0.15s;
+    }
+
+    .template-card:hover { border-color: #444; }
+
+    .template-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .template-icon {
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+
+    .template-name {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+
+    .template-desc {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .template-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.75rem;
+      padding: 2px 9px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+
+    /* ── How it works ── */
+    .steps {
+      display: grid;
+      gap: 20px;
+    }
+
+    .step {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent-dim);
+      border: 1px solid rgba(249,115,22,0.3);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+
+    .step-body h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .step-body p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .step-body code {
+      font-family: monospace;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      color: var(--text);
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      border-top: 1px solid var(--border);
+      padding: 60px 0;
+      text-align: center;
+    }
+
+    .cta-section h2 { margin-bottom: 12px; }
+    .cta-section p { color: var(--muted); margin-bottom: 28px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #000;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      font-size: 0.95rem;
+      transition: opacity 0.15s;
+      text-decoration: none;
+    }
+
+    .btn:hover { opacity: 0.85; text-decoration: none; }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover { border-color: #555; opacity: 1; }
+
+    .cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--text); }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .install-box {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        width: 100%;
+        text-align: left;
+      }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <div class="logo"><span>oh</span>-my-claude</div>
+    <ul class="nav-links">
+      <li><a href="#templates">Templates</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="https://github.com/lvhoang/oh-my-claude">GitHub</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <div class="container">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="badge">Claude Code</div>
+      <h1><em>CLAUDE.md</em> templates<br>for every project</h1>
+      <p class="tagline">Stop writing your CLAUDE.md from scratch. Pick a template, install it, and get coding in seconds.</p>
+      <div class="install-box">
+        <span class="prompt">$</span>
+        <code id="install-cmd">npx oh-my-claude install nextjs</code>
+        <button class="copy-btn" onclick="copyCmd()">copy</button>
+      </div>
+    </section>
+
+    <!-- Templates -->
+    <section id="templates">
+      <div class="section-label">Templates</div>
+      <h2>Ready-made configs</h2>
+      <p class="section-sub">Each template includes a <code style="font-family:monospace;font-size:0.9em">CLAUDE.md</code> with conventions + patterns, and a <code style="font-family:monospace;font-size:0.9em">.claude/settings.json</code> with tool permissions.</p>
+
+      <div class="templates">
+
+        <div class="template-card">
+          <div class="template-header">
+            <span class="template-icon">⚡</span>
+            <span class="template-name">nextjs</span>
+          </div>
+          <p class="template-desc">Next.js 14+ App Router with TypeScript, Tailwind CSS, and shadcn/ui. Covers file structure, server vs client components, data fetching patterns, and deployment.</p>
+          <div class="template-tags">
+            <span class="tag">Next.js</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Tailwind</span>
+            <span class="tag">shadcn/ui</span>
+            <span class="tag">Vercel</span>
+          </div>
+        </div>
+
+        <div class="template-card">
+          <div class="template-header">
+            <span class="template-icon">🏢</span>
+            <span class="template-name">servicenow</span>
+          </div>
+          <p class="template-desc">ServiceNow scoped application development. GlideRecord patterns, business rules, client scripts, Flow Designer, Scripted REST APIs, and ATF testing.</p>
+          <div class="template-tags">
+            <span class="tag">GlideRecord</span>
+            <span class="tag">Flow Designer</span>
+            <span class="tag">Business Rules</span>
+            <span class="tag">ATF</span>
+            <span class="tag">ITSM</span>
+          </div>
+        </div>
+
+        <div class="template-card">
+          <div class="template-header">
+            <span class="template-icon">🐍</span>
+            <span class="template-name">python-api</span>
+          </div>
+          <p class="template-desc">FastAPI with Pydantic v2, async SQLAlchemy, Alembic migrations, pytest-asyncio, and ruff. Production-grade async API conventions out of the box.</p>
+          <div class="template-tags">
+            <span class="tag">FastAPI</span>
+            <span class="tag">Pydantic v2</span>
+            <span class="tag">SQLAlchemy</span>
+            <span class="tag">pytest</span>
+            <span class="tag">ruff</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how">
+      <div class="section-label">How it works</div>
+      <h2>Three steps</h2>
+      <p class="section-sub">No config. No setup. Just run the install command.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h3>Pick a template</h3>
+            <p>Run <code>npx oh-my-claude list</code> to see all available templates. Or <code>preview &lt;name&gt;</code> to read it before installing.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h3>Install into your project</h3>
+            <p>Run <code>npx oh-my-claude install &lt;name&gt;</code> in your project root. It drops <code>CLAUDE.md</code> and <code>.claude/settings.json</code> in place.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h3>Open Claude Code</h3>
+            <p>Claude Code automatically reads <code>CLAUDE.md</code> on startup. Your agent now knows your stack, conventions, and patterns.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Start in seconds</h2>
+      <p>Free, open-source, no account required.</p>
+      <div class="cta-buttons">
+        <a class="btn" href="https://github.com/lvhoang/oh-my-claude">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          View on GitHub
+        </a>
+        <a class="btn btn-outline" href="https://github.com/lvhoang/oh-my-claude/tree/main/templates">
+          Browse templates
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <a href="https://github.com/lvhoang/oh-my-claude">oh-my-claude</a> · MIT license · by <a href="https://github.com/lvhoang">lvhoang</a>
+</footer>
+
+<script>
+  function copyCmd() {
+    const text = document.getElementById('install-cmd').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = 'copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'copy';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>

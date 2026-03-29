@@ -1,0 +1,33 @@
+{
+  "name": "oh-my-claude",
+  "version": "1.0.0",
+  "description": "Curated CLAUDE.md templates and .claude/settings.json configs for popular project types",
+  "main": "bin/omc.js",
+  "bin": {
+    "omc": "bin/omc.js",
+    "oh-my-claude": "bin/omc.js"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "templates",
+    "ai",
+    "developer-tools",
+    "claude-md"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/user/oh-my-claude"
+  },
+  "files": [
+    "bin/",
+    "templates/",
+    "LICENSE",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node:*)",
+      "Bash(npm:*)",
+      "Bash(git:*)",
+      "Bash(curl:*)",
+      "Read(**)",
+      "Write(**)",
+      "Edit(**)"
+    ],
+    "deny": []
+  },
+  "env": {
+    "SN_INSTANCE": "",
+    "SN_USER": "",
+    "SN_PASSWORD": ""
+  },
+  "notes": [
+    "Set SN_INSTANCE to your instance URL (e.g. https://dev12345.service-now.com)",
+    "Use sn-sdk or node-servicenow for local scripting/automation",
+    "Never commit credentials — use .env files"
+  ]
+}
